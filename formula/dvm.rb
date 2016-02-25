@@ -7,10 +7,17 @@ class Dvm < Formula
 
   bottle :unneeded
 
+  resource "helper" do
+    url "https://download.getcarina.com/dvm/0.3.1/Darwin/x86_64/dvm-helper"
+    sha256 "a01337f80b44eb6f6e64e370f57c409027182a3ea14ce5a0f71ebe8c9b19d52f"
+  end
+
   def install
     prefix.install "dvm.sh"
     bash_completion.install "bash_completion" => "dvm"
-    DvmHelper.new.brew
+    resource("helper").stage do
+      prefix.install "dvm-helper" => "dvm/dvm-helper"
+    end
   end
 
   def caveats; <<-EOS.undent
@@ -35,14 +42,5 @@ class Dvm < Formula
     assert_no_match /No such file or directory/, output
     assert_no_match /dvm: command not found/, output
     assert_match /Docker Version Manager/, output
-  end
-end
-
-class DvmHelper < Formula
-  url "https://download.getcarina.com/dvm/0.3.1/Darwin/x86_64/dvm-helper"
-  sha256 "a01337f80b44eb6f6e64e370f57c409027182a3ea14ce5a0f71ebe8c9b19d52f"
-
-  def install
-    prefix.install "dvm-helper" => "dvm/dvm-helper"
   end
 end
