@@ -15,7 +15,7 @@ class Dvm < Formula
   def install
     prefix.install "dvm.sh"
     bash_completion.install "bash_completion" => "dvm"
-    mkdir "dvm/dvm-helper" do
+    mkdir "dvm-helper" do
       resource("helper").stage do
         prefix.install "dvm-helper" => "dvm/dvm-helper"
       end
